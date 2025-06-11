@@ -510,7 +510,7 @@
             {
                 id: 'meetings',
                 title: 'Meeting Preparation & Follow-ups',
-                icon: '📅',
+                icon: '�',
                 problem: 'The extensive pre-call research, the challenge of summarizing lengthy meeting notes accurately, and the time spent drafting comprehensive follow-up emails.',
                 solution: [
                     'Rapidly summarize complex documents (e.g., internal case studies, client history files) for quick assimilation before a meeting.',
@@ -750,7 +750,7 @@ Please ensure the brief is a draft, suitable for further human refinement.`;
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                 const payload = { contents: chatHistory };
-                const apiKey = ""; 
+                const apiKey = ""; // IMPORTANT: You MUST replace this with your actual Google Cloud API Key for the brief generator to work on your GitHub hosted site.
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -761,19 +761,28 @@ Please ensure the brief is a draft, suitable for further human refinement.`;
 
                 const result = await response.json();
                 
+                // This is the crucial part to handle different API response structures.
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     const text = result.candidates[0].content.parts[0].text;
                     briefOutput.textContent = text;
                     briefOutputContainer.classList.remove('hidden');
-                } else {
-                    briefError.textContent = 'Error generating brief: Unexpected response format.';
+                } else if (result.promptFeedback && result.promptFeedback.blockReason) {
+                    // Handle cases where content is blocked by safety filters
+                    briefError.textContent = `Error generating brief: Content blocked due to safety policy (${result.promptFeedback.blockReason}). Please try a different prompt or adjust inputs.`;
                     briefError.classList.remove('hidden');
+                    console.error('API call blocked:', result.promptFeedback.blockReason);
+                }
+                 else {
+                    // Fallback for any other unexpected structure or API error
+                    briefError.textContent = 'Error generating brief: Unexpected response format from AI. This often means the API call failed due to a missing or invalid API Key, or a server issue. Please check your browser console for more details.';
+                    briefError.classList.remove('hidden');
+                    console.error('Unexpected API response:', result);
                 }
             } catch (error) {
                 console.error('Error fetching from Gemini API:', error);
-                briefError.textContent = 'Error generating brief. Please check your network or try again later.';
+                briefError.textContent = 'Error generating brief. Please check your network connection, or try again later. If the issue persists, ensure your API key is correctly configured and valid.';
                 briefError.classList.remove('hidden');
             } finally {
                 briefLoading.classList.add('hidden');
