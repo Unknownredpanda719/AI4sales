@@ -896,7 +896,7 @@ Generate ONLY the optimized prompt. Do not include any conversational text or ex
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: promptToAI }] });
                 const payload = { contents: chatHistory };
-                const apiKey = ""; // IMPORTANT: Use the SAME API Key as for the Brief Generator
+                const apiKey = "AIzaSyB7G6kVVXaZDo5RWW5btxOUSmOgB5cfblQ"; // IMPORTANT: Use the SAME API Key as for the Brief Generator
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
