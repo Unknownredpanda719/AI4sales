@@ -1,17 +1,17 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supercharging Sales with Meta AI</title>
     <!-- Chosen Palette: Meta Calm Corporate -->
-    <!-- Application Structure Plan: A task-oriented, single-page hub. The structure includes a header, a hero section, and a main content area with tab-based navigation to switch between an 'Introduction', an interactive 'Use Case Explorer', a 'Prompting Guide', 'Responsible AI' guidelines, an 'AI Key Terms' overview, and an 'AI Model Types' overview. The core is the 'Use Case Explorer', which presents each sales task (Prospecting, Outreach, etc.) as an interactive card. Clicking a card reveals details and copyable prompt examples. This task-oriented design was chosen over a linear document scroll because the target audience (salespeople) is highly action-oriented. It allows them to quickly find and apply solutions to their specific daily challenges. An illustrative bar chart visually reinforces the primary benefit (time-saving) and links interactively to the use cases. This structure makes the educational content engaging, practical, and easy to navigate. The 'AI Key Terms' tab provides essential vocabulary in a digestible format. The 'AI Model Types' tab gives an overview of various LLMs and their sales-specific applications. The new 'Brief Generator' tab allows users to input key client brief parameters and then uses an LLM to generate a structured draft brief, which can be copied. -->
+    <!-- Application Structure Plan: A task-oriented, single-page hub. The structure includes a header, a hero section, and a main content area with tab-based navigation to switch between an 'Introduction', an interactive 'Use Case Explorer', a 'Prompting Guide', 'Responsible AI' guidelines, an 'AI Key Terms' overview, an 'AI Model Types' overview, a 'Brief Generator' tab, and a new 'Prompt Generator' tab. The core is the 'Use Case Explorer', which presents each sales task (Prospecting, Outreach, etc.) as an interactive card. Clicking a card reveals details and copyable prompt examples. This task-oriented design was chosen over a linear document scroll because the target audience (salespeople) is highly action-oriented. It allows them to quickly find and apply solutions to their specific daily challenges. An illustrative bar chart visually reinforces the primary benefit (time-saving) and links interactively to the use cases. This structure makes the educational content engaging, practical, and easy to navigate. The 'AI Key Terms' tab provides essential vocabulary in a digestible format. The 'AI Model Types' tab gives an overview of various LLMs and their sales-specific applications. The 'Brief Generator' tab allows users to input key client brief parameters and then uses an LLM to generate a structured draft brief. The new 'Prompt Generator' tab takes a user's problem statement and generates an optimized prompt for any LLM. -->
     <!-- Visualization & Content Choices: 
         - Report Info: The list of time-consuming sales tasks from "The Sales Challenge".
         - Goal: To visually and impactfully communicate the core benefit of the workshop - saving time.
         - Viz/Presentation Method: An interactive bar chart titled "Estimated Time Saved Per Week".
         - Interaction: Users can click on a bar in the chart (e.g., "Prospecting") to automatically scroll to and highlight the corresponding use case card in the explorer section. This creates a direct link between the "problem" (time spent) and the "solution" (the AI use case).
-        - Justification: A chart is more engaging than a simple text list. It quantifies the value proposition of the workshop immediately. The interactivity reinforces the connection between different sections of the application, improving user flow.
+        - Justification: A chart is more engaging than a simple text list. It quantifies the value. The interactivity reinforces the connection between different sections of the application, improving user flow.
         - Library/Method: Chart.js (Canvas).
 
         - Report Info: The five main sales use cases (Prospecting, Outreach, Meetings, Content Creation, Data Analysis).
@@ -46,6 +46,13 @@
         - Viz/Presentation Method: An input form with text fields and a button, displaying the generated brief in a dedicated output area with a copy button.
         - Interaction: User input in form fields, click button to generate, click button to copy output. Uses LLM API.
         - Justification: Directly addresses the user's request for brief generation, significantly saving time by automating the initial draft.
+        - Library/Method: HTML/Tailwind CSS for form and display, JavaScript for input handling, API call to LLM, and dynamic content update.
+
+        - Report Info: User problem statement for prompt.
+        - Goal: To generate an optimized, ready-to-use LLM prompt based on a user's task.
+        - Viz/Presentation Method: A textarea for problem input, generate button, and an output area with copy functionality for the generated prompt.
+        - Interaction: User describes problem, clicks generate, receives prompt, can copy it. Uses LLM API.
+        - Justification: Empowers users to leverage any LLM effectively by providing them with well-crafted prompts, saving time on prompt engineering.
         - Library/Method: HTML/Tailwind CSS for form and display, JavaScript for input handling, API call to LLM, and dynamic content update. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -195,6 +202,7 @@
             <a onclick="showTab('terms')" class="nav-link">AI Key Terms</a>
             <a onclick="showTab('models')" class="nav-link">AI Model Types</a>
             <a onclick="showTab('brief-generator')" class="nav-link">Brief Generator</a>
+            <a onclick="showTab('prompt-generator')" class="nav-link">Prompt Generator</a>
         </div>
 
         <div id="content-container">
@@ -272,24 +280,24 @@
             </section>
 
             <section id="responsible" class="tab-content hidden">
-                 <div class="bg-white p-8 rounded-xl shadow-md">
+                <div class="bg-white p-8 rounded-xl shadow-md">
                     <h3 class="text-3xl font-bold text-center mb-8 text-gray-900">Responsible AI: Your Co-Pilot, Not a Replacement</h3>
                     <div class="space-y-4">
                         <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-r-lg" role="alert">
-                          <p class="font-bold">Human in the Loop</p>
-                          <p>AI is your co-pilot. Always review, edit, and personalize AI-generated content. Your expertise and relationship-building skills are irreplaceable.</p>
+                            <p class="font-bold">Human in the Loop</p>
+                            <p>AI is your co-pilot. Always review, edit, and personalize AI-generated content. Your expertise and relationship-building skills are irreplaceable.</p>
                         </div>
                         <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg" role="alert">
-                          <p class="font-bold">Accuracy & "Hallucinations"</p>
-                          <p>AI models can provide incorrect information. Always fact-check crucial details, statistics, and client-specific claims before using them.</p>
+                            <p class="font-bold">Accuracy & "Hallucinations"</p>
+                            <p>AI models can provide incorrect information. Always fact-check crucial details, statistics, and client-specific claims before using them.</p>
                         </div>
                         <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-r-lg" role="alert">
-                          <p class="font-bold">Privacy & Confidentiality</p>
-                          <p>Adhere strictly to Meta's internal guidelines. Avoid sharing sensitive customer data or proprietary information in prompts.</p>
+                            <p class="font-bold">Privacy & Confidentiality</p>
+                            <p>Adhere strictly to Meta's internal guidelines. Avoid sharing sensitive customer data or proprietary information in prompts.</p>
                         </div>
-                         <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-r-lg" role="alert">
-                          <p class="font-bold">Ethical Considerations</p>
-                          <p>Be mindful of potential biases in AI outputs. Ensure all generated content is fair, inclusive, and avoids any discriminatory language.</p>
+                        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-r-lg" role="alert">
+                            <p class="font-bold">Ethical Considerations</p>
+                            <p>Be mindful of potential biases in AI outputs. Ensure all generated content is fair, inclusive, and avoids any discriminatory language.</p>
                         </div>
                     </div>
                 </div>
@@ -449,6 +457,32 @@
 
                 </div>
             </section>
+
+            <section id="prompt-generator" class="tab-content hidden">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-gray-900">AI Prompt Generator</h3>
+                    <p class="text-gray-700 mb-6 text-center max-w-2xl mx-auto">Describe the problem or task you want an AI to solve, and we'll generate an optimized prompt you can use in any LLM of your choice.</p>
+                    
+                    <div class="mb-8">
+                        <label for="problemDescription" class="form-label">Describe the problem or task you want the AI to help with:</label>
+                        <textarea id="problemDescription" class="form-input h-32" placeholder="e.g., I need to draft a cold email for a new prospect in the retail industry about our new ad targeting solution."></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button id="generatePromptBtn" class="px-8 py-3 font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 hero-button">
+                            Generate Optimized Prompt
+                        </button>
+                    </div>
+
+                    <div id="generatedPromptOutputContainer" class="mt-8 hidden">
+                        <h4 class="text-xl font-bold mb-4 text-gray-900">Your Optimized Prompt</h4>
+                        <div id="generatedPromptOutput" class="prompt-block text-left mb-4"></div>
+                        <button id="copyGeneratedPromptBtn" class="px-6 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-500 transition-all duration-200">Copy Prompt</button>
+                    </div>
+                    <div id="promptLoading" class="text-center mt-8 hidden text-gray-600">Generating prompt... Please wait.</div>
+                    <div id="promptError" class="text-center mt-8 hidden text-red-600">Error generating prompt. Please try again.</div>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -487,7 +521,7 @@
             {
                 id: 'outreach',
                 title: 'Personalized Outreach & Communication',
-                icon: '📨',
+                icon: '�',
                 problem: 'Crafting unique and compelling emails or messages for each prospect, overcoming writer\'s block, and developing effective subject lines can be a significant drain on time.',
                 solution: [
                     'Draft personalized cold emails or LinkedIn messages with minimal input.',
@@ -510,7 +544,7 @@
             {
                 id: 'meetings',
                 title: 'Meeting Preparation & Follow-ups',
-                icon: '�',
+                icon: '📅',
                 problem: 'The extensive pre-call research, the challenge of summarizing lengthy meeting notes accurately, and the time spent drafting comprehensive follow-up emails.',
                 solution: [
                     'Rapidly summarize complex documents (e.g., internal case studies, client history files) for quick assimilation before a meeting.',
@@ -750,7 +784,10 @@ Please ensure the brief is a draft, suitable for further human refinement.`;
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyB7G6kVVXaZDo5RWW5btxOUSmOgB5cfblQ"; // IMPORTANT: You MUST replace this with your actual Google Cloud API Key for the brief generator to work on your GitHub hosted site.
+                // IMPORTANT: You MUST replace the empty quotes with your actual Google Cloud API Key.
+                // This key is obtained from Google Cloud Console -> APIs & Services -> Credentials.
+                // Ensure the "Generative Language API" is enabled in your Google Cloud Project.
+                const apiKey = ""; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -782,7 +819,7 @@ Please ensure the brief is a draft, suitable for further human refinement.`;
                 }
             } catch (error) {
                 console.error('Error fetching from Gemini API:', error);
-                briefError.textContent = 'Error generating brief. Please check your network connection, or try again later. If the issue persists, ensure your API key is correctly configured and valid.';
+                briefError.textContent = 'Error generating brief. Please check your network connection, or try again later. If the issue persists, ensure your API key is correctly configured and valid, and the "Generative Language API" is enabled in your Google Cloud Project.';
                 briefError.classList.remove('hidden');
             } finally {
                 briefLoading.classList.add('hidden');
@@ -810,6 +847,111 @@ Please ensure the brief is a draft, suitable for further human refinement.`;
                     copyBriefBtn.textContent = 'Copied!';
                     setTimeout(() => {
                         copyBriefBtn.textContent = 'Copy Brief';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Fallback copy failed: ', err);
+                }
+                document.body.removeChild(textArea);
+            });
+        });
+
+        // Prompt Generator Logic
+        const generatePromptBtn = document.getElementById('generatePromptBtn');
+        const problemDescriptionInput = document.getElementById('problemDescription');
+        const generatedPromptOutputContainer = document.getElementById('generatedPromptOutputContainer');
+        const generatedPromptOutput = document.getElementById('generatedPromptOutput');
+        const promptLoading = document.getElementById('promptLoading');
+        const promptError = document.getElementById('promptError');
+        const copyGeneratedPromptBtn = document.getElementById('copyGeneratedPromptBtn');
+
+        generatePromptBtn.addEventListener('click', async () => {
+            const problem = problemDescriptionInput.value;
+
+            if (!problem) {
+                generatedPromptOutputContainer.classList.add('hidden');
+                promptLoading.classList.add('hidden');
+                promptError.textContent = 'Please describe the problem or task you want the AI to help with.';
+                promptError.classList.remove('hidden');
+                return;
+            }
+
+            generatedPromptOutputContainer.classList.add('hidden');
+            promptError.classList.add('hidden');
+            promptLoading.classList.remove('hidden');
+            generatedPromptOutput.textContent = ''; // Clear previous output
+
+            const promptToAI = `You are an expert prompt engineer for sales professionals. A sales person has described a problem or task they want an AI (like an LLM) to help them with. Your job is to generate an optimized, effective, and actionable prompt that they can directly copy and paste into any LLM of their choice.
+
+The prompt you generate should include:
+- A clear role/persona for the LLM (e.g., "Act as a sales expert," "You are a lead qualification specialist.").
+- The specific task/goal the LLM should achieve.
+- Any necessary context or constraints (e.g., tone, length, format, key information to include/exclude).
+- A placeholder for where the sales person would input their specific data (e.g., [Client Name], [Product Features], [Call Transcript]).
+
+Here is the problem/task the sales person wants to solve: "${problem}"
+
+Generate ONLY the optimized prompt. Do not include any conversational text or explanations before or after the prompt itself.`;
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: promptToAI }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // IMPORTANT: Use the SAME API Key as for the Brief Generator
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    generatedPromptOutput.textContent = text;
+                    generatedPromptOutputContainer.classList.remove('hidden');
+                } else if (result.promptFeedback && result.promptFeedback.blockReason) {
+                    promptError.textContent = `Error generating prompt: Content blocked due to safety policy (${result.promptFeedback.blockReason}). Please rephrase your problem.`;
+                    promptError.classList.remove('hidden');
+                    console.error('API call blocked:', result.promptFeedback.blockReason);
+                } else {
+                    promptError.textContent = 'Error generating prompt: Unexpected response format from AI. Please check your API key or try again.';
+                    promptError.classList.remove('hidden');
+                    console.error('Unexpected API response for prompt generator:', result);
+                }
+            } catch (error) {
+                console.error('Error fetching from Gemini API for prompt generator:', error);
+                promptError.textContent = 'Error generating prompt. Please check your network connection, or ensure your API key is valid.';
+                promptError.classList.remove('hidden');
+            } finally {
+                promptLoading.classList.add('hidden');
+            }
+        });
+
+        copyGeneratedPromptBtn.addEventListener('click', () => {
+            const promptText = generatedPromptOutput.textContent;
+            navigator.clipboard.writeText(promptText).then(() => {
+                copyGeneratedPromptBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyGeneratedPromptBtn.textContent = 'Copy Prompt';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                const textArea = document.createElement("textarea");
+                textArea.value = promptText;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    copyGeneratedPromptBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyGeneratedPromptBtn.textContent = 'Copy Prompt';
                     }, 2000);
                 } catch (err) {
                     console.error('Fallback copy failed: ', err);
@@ -879,3 +1021,4 @@ Please ensure the brief is a draft, suitable for further human refinement.`;
 
 </body>
 </html>
+�
