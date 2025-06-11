@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supercharging Sales with Meta AI</title>
     <!-- Chosen Palette: Meta Calm Corporate -->
-    <!-- Application Structure Plan: A task-oriented, single-page hub. The structure includes a header, a hero section, and a main content area with tab-based navigation to switch between an 'Introduction', an interactive 'Use Case Explorer', a 'Prompting Guide', 'Responsible AI' guidelines, an 'AI Key Terms' overview, and an 'AI Model Types' overview. The core is the 'Use Case Explorer', which presents each sales task (Prospecting, Outreach, etc.) as an interactive card. Clicking a card reveals details and copyable prompt examples. This task-oriented design was chosen over a linear document scroll because the target audience (salespeople) is highly action-oriented. It allows them to quickly find and apply solutions to their specific daily challenges. An illustrative bar chart visually reinforces the primary benefit (time-saving) and links interactively to the use cases. This structure makes the educational content engaging, practical, and easy to navigate. The 'AI Key Terms' tab provides essential vocabulary in a digestible format. The 'AI Model Types' tab gives an overview of various LLMs and their sales-specific applications. -->
+    <!-- Application Structure Plan: A task-oriented, single-page hub. The structure includes a header, a hero section, and a main content area with tab-based navigation to switch between an 'Introduction', an interactive 'Use Case Explorer', a 'Prompting Guide', 'Responsible AI' guidelines, an 'AI Key Terms' overview, and an 'AI Model Types' overview. The core is the 'Use Case Explorer', which presents each sales task (Prospecting, Outreach, etc.) as an interactive card. Clicking a card reveals details and copyable prompt examples. This task-oriented design was chosen over a linear document scroll because the target audience (salespeople) is highly action-oriented. It allows them to quickly find and apply solutions to their specific daily challenges. An illustrative bar chart visually reinforces the primary benefit (time-saving) and links interactively to the use cases. This structure makes the educational content engaging, practical, and easy to navigate. The 'AI Key Terms' tab provides essential vocabulary in a digestible format. The 'AI Model Types' tab gives an overview of various LLMs and their sales-specific applications. The new 'Brief Generator' tab allows users to input key client brief parameters and then uses an LLM to generate a structured draft brief, which can be copied. -->
     <!-- Visualization & Content Choices: 
         - Report Info: The list of time-consuming sales tasks from "The Sales Challenge".
         - Goal: To visually and impactfully communicate the core benefit of the workshop - saving time.
@@ -39,7 +39,14 @@
         - Viz/Presentation Method: Distinct cards for each model, highlighting their core features and sales-specific use cases.
         - Interaction: Simple display and reading.
         - Justification: Provides necessary context for sales professionals to understand which AI tool might be best suited for different tasks, promoting informed usage.
-        - Library/Method: HTML/Tailwind CSS. -->
+        - Library/Method: HTML/Tailwind CSS.
+
+        - Report Info: Client brief examples.
+        - Goal: To enable users to quickly generate a structured draft client brief.
+        - Viz/Presentation Method: An input form with text fields and a button, displaying the generated brief in a dedicated output area with a copy button.
+        - Interaction: User input in form fields, click button to generate, click button to copy output. Uses LLM API.
+        - Justification: Directly addresses the user's request for brief generation, significantly saving time by automating the initial draft.
+        - Library/Method: HTML/Tailwind CSS for form and display, JavaScript for input handling, API call to LLM, and dynamic content update. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -151,6 +158,16 @@
         .text-green-800 { color: #065F46; } /* Deeper green for headings */
         .text-yellow-800 { color: #9A3412; } /* Deeper yellow/orange for headings */
         .text-purple-800 { color: #6B21A8; } /* Deeper purple for headings */
+
+        .form-input {
+            @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+            color: var(--text-primary); /* Ensure input text is readable */
+            background-color: white; /* Ensure input background is white */
+        }
+        .form-label {
+            @apply block text-sm font-medium text-gray-700 mb-1;
+            color: var(--text-primary); /* Ensure label text is readable */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -177,6 +194,7 @@
             <a onclick="showTab('responsible')" class="nav-link">Responsible AI</a>
             <a onclick="showTab('terms')" class="nav-link">AI Key Terms</a>
             <a onclick="showTab('models')" class="nav-link">AI Model Types</a>
+            <a onclick="showTab('brief-generator')" class="nav-link">Brief Generator</a>
         </div>
 
         <div id="content-container">
@@ -379,6 +397,58 @@
                 </div>
             </section>
 
+            <section id="brief-generator" class="tab-content hidden">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-3xl font-bold text-center mb-8 text-gray-900">Client Brief Generator</h3>
+                    <p class="text-gray-700 mb-6 text-center max-w-2xl mx-auto">Quickly generate a structured draft for your client brief by providing key details below. This will give you a solid starting point for your pitches and campaigns.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="clientName" class="form-label">Client/Brand Name</label>
+                            <input type="text" id="clientName" class="form-input" placeholder="e.g., Bloom Fresh">
+                        </div>
+                        <div>
+                            <label for="industry" class="form-label">Industry</label>
+                            <input type="text" id="industry" class="form-input" placeholder="e.g., CPG - Laundry Detergent">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="productDesc" class="form-label">Product/Service Description</label>
+                            <textarea id="productDesc" class="form-input h-24" placeholder="e.g., A revolutionary new laundry detergent designed to deliver unparalleled freshness and stain removal, while also being environmentally friendly."></textarea>
+                        </div>
+                        <div>
+                            <label for="campaignGoal" class="form-label">Main Campaign Goal</label>
+                            <input type="text" id="campaignGoal" class="form-input" placeholder="e.g., Drive trial & market share">
+                        </div>
+                        <div>
+                            <label for="targetAudience" class="form-label">Target Audience (Keywords)</label>
+                            <input type="text" id="targetAudience" class="form-input" placeholder="e.g., Environmentally conscious women, 25-54, homeowners">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="competitors" class="form-label">Key Competitors (Comma-separated)</label>
+                            <input type="text" id="competitors" class="form-input" placeholder="e.g., Persil, Ariel, Ecover, Method">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="additionalContext" class="form-label">Additional Specific Requests/Context</label>
+                            <textarea id="additionalContext" class="form-input h-32" placeholder="e.g., Focus on visual storytelling for social channels."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button id="generateBriefBtn" class="px-8 py-3 font-semibold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 hero-button">
+                            Generate Brief Draft
+                        </button>
+                    </div>
+
+                    <div id="briefOutputContainer" class="mt-8 hidden">
+                        <h4 class="text-xl font-bold mb-4 text-gray-900">Generated Brief Draft</h4>
+                        <div id="briefOutput" class="prompt-block text-left mb-4"></div>
+                        <button id="copyBriefBtn" class="px-6 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-500 transition-all duration-200">Copy Brief</button>
+                    </div>
+                    <div id="briefLoading" class="text-center mt-8 hidden text-gray-600">Generating brief... Please wait.</div>
+                    <div id="briefError" class="text-center mt-8 hidden text-red-600">Error generating brief. Please try again.</div>
+
+                </div>
+            </section>
         </div>
     </main>
 
@@ -429,7 +499,8 @@
                     {
                         title: 'Draft a Cold Email',
                         text: "Write a personalized cold email to [Prospect Name] at [Company Name]. I know they recently [mention a relevant news/event, e.g., launched a new product line]. Focus on how [Our Product/Service] can help them achieve [specific benefit related to the news, e.g., increase market penetration for new products]. Keep it concise and include a clear call to action to schedule a 15-minute discovery call."
-                    },
+                    }
+                    ,
                     {
                         title: 'Draft an Automated DM Response',
                         text: "Generate a polite and helpful automated response for an Instagram DM inquiry asking about our product pricing. Guide them to our website's pricing page for details and offer to connect them directly with a sales representative for a custom quote or demonstration."
@@ -524,7 +595,7 @@
                             <p class="text-gray-600">${useCase.problem}</p>
                         </div>
                         <div>
-                            <h5 class="font-bold mb-2 text-green-600">Meta AI Solution</h5>
+                            <h5 class="font-bold text-green-600 mb-2">Meta AI Solution</h5>
                             <ul class="list-disc list-inside text-gray-600">${solutionList}</ul>
                         </div>
                     </div>
@@ -631,6 +702,112 @@
                 }
             }
         });
+
+        // Brief Generator Logic
+        const generateBriefBtn = document.getElementById('generateBriefBtn');
+        const briefOutputContainer = document.getElementById('briefOutputContainer');
+        const briefOutput = document.getElementById('briefOutput');
+        const briefLoading = document.getElementById('briefLoading');
+        const briefError = document.getElementById('briefError');
+        const copyBriefBtn = document.getElementById('copyBriefBtn');
+
+        generateBriefBtn.addEventListener('click', async () => {
+            const clientName = document.getElementById('clientName').value;
+            const industry = document.getElementById('industry').value;
+            const productDesc = document.getElementById('productDesc').value;
+            const campaignGoal = document.getElementById('campaignGoal').value;
+            const targetAudience = document.getElementById('targetAudience').value;
+            const competitors = document.getElementById('competitors').value;
+            const additionalContext = document.getElementById('additionalContext').value;
+
+            // Basic validation
+            if (!clientName || !industry || !campaignGoal) {
+                briefOutputContainer.classList.add('hidden');
+                briefLoading.classList.add('hidden');
+                briefError.textContent = 'Please fill in Client Name, Industry, and Main Campaign Goal.';
+                briefError.classList.remove('hidden');
+                return;
+            }
+
+            briefOutputContainer.classList.add('hidden');
+            briefError.classList.add('hidden');
+            briefLoading.classList.remove('hidden');
+            briefOutput.textContent = ''; // Clear previous output
+
+            const prompt = `Generate a concise client media brief draft based on the following information. Structure it with clear headings like 'Brand & Campaign Overview', 'Campaign Objectives', 'Target Audience Summary', 'Key Message & Creative Focus', 'Budget & Timeline Guidance', 'Competitive Landscape', and 'Key Questions for Partner'. Make it sound professional and actionable, suitable for an internal Meta sales team.
+
+Client/Brand Name: ${clientName}
+Industry: ${industry}
+Product/Service Description: ${productDesc || 'Not provided'}
+Main Campaign Goal: ${campaignGoal}
+Target Audience Keywords: ${targetAudience || 'Not provided'}
+Key Competitors: ${competitors || 'Not provided'}
+Additional Context/Specific Requests: ${additionalContext || 'None'}
+
+Please ensure the brief is a draft, suitable for further human refinement.`;
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    briefOutput.textContent = text;
+                    briefOutputContainer.classList.remove('hidden');
+                } else {
+                    briefError.textContent = 'Error generating brief: Unexpected response format.';
+                    briefError.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error fetching from Gemini API:', error);
+                briefError.textContent = 'Error generating brief. Please check your network or try again later.';
+                briefError.classList.remove('hidden');
+            } finally {
+                briefLoading.classList.add('hidden');
+            }
+        });
+
+        copyBriefBtn.addEventListener('click', () => {
+            const briefText = briefOutput.textContent;
+            navigator.clipboard.writeText(briefText).then(() => {
+                copyBriefBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBriefBtn.textContent = 'Copy Brief';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                const textArea = document.createElement("textarea");
+                textArea.value = briefText;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    copyBriefBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyBriefBtn.textContent = 'Copy Brief';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Fallback copy failed: ', err);
+                }
+                document.body.removeChild(textArea);
+            });
+        });
     });
 
     function showTab(tabName) {
@@ -669,7 +846,6 @@
             }, 2000);
         }).catch(err => {
             console.error('Failed to copy text: ', err);
-            // Fallback for older browsers or if navigator.clipboard fails
             const textArea = document.createElement("textarea");
             textArea.value = promptText;
             textArea.style.position = "fixed";
