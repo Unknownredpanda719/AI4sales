@@ -750,7 +750,7 @@ Please ensure the brief is a draft, suitable for further human refinement.`;
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                 const payload = { contents: chatHistory };
-                const apiKey = ""; // IMPORTANT: You MUST replace this with your actual Google Cloud API Key for the brief generator to work on your GitHub hosted site.
+                const apiKey = "AIzaSyB7G6kVVXaZDo5RWW5btxOUSmOgB5cfblQ"; // IMPORTANT: You MUST replace this with your actual Google Cloud API Key for the brief generator to work on your GitHub hosted site.
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
