@@ -1,11 +1,11 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supercharging Sales with Meta AI</title>
     <!-- Chosen Palette: Meta Calm Corporate -->
-    <!-- Application Structure Plan: A task-oriented, single-page hub. The structure includes a header, a hero section, and a main content area with tab-based navigation to switch between an 'Introduction', an interactive 'Use Case Explorer', a 'Prompting Guide', 'Responsible AI' guidelines, an 'AI Key Terms' overview, an 'AI Model Types' overview, a 'Brief Generator' tab, and a new 'Prompt Generator' tab. The core is the 'Use Case Explorer', which presents each sales task (Prospecting, Outreach, etc.) as an interactive card. Clicking a card reveals details and copyable prompt examples. This task-oriented design was chosen over a linear document scroll because the target audience (salespeople) is highly action-oriented. It allows them to quickly find and apply solutions to their specific daily challenges. An illustrative bar chart visually reinforces the primary benefit (time-saving) and links interactively to the use cases. This structure makes the educational content engaging, practical, and easy to navigate. The 'AI Key Terms' tab provides essential vocabulary in a digestible format. The 'AI Model Types' tab gives an overview of various LLMs and their sales-specific applications. The 'Brief Generator' tab allows users to input key client brief parameters and then uses an LLM to generate a structured draft brief. The new 'Prompt Generator' tab takes a user's problem statement and generates an optimized prompt for any LLM. -->
+    <!-- Application Structure Plan: A task-oriented, single-page hub. The structure includes a header, a hero section, and a main content area with tab-based navigation to switch between an 'Introduction', an interactive 'Use Case Explorer', a 'Prompting Guide', 'Responsible AI' guidelines, an 'AI Key Terms' overview, an 'AI Model Types' overview, a 'Brief Generator' tab, and a new 'Prompt Generator' tab. The core is the 'Use Case Explorer', which presents each sales task (Prospecting, Outreach, etc.) as an interactive card. Clicking a card reveals details and copyable prompt examples. This task-oriented design was chosen over a linear document scroll because the target audience (salespeople) is highly action-oriented. It allows them to quickly find and apply solutions to their specific daily challenges. An illustrative bar chart visually reinforces the primary benefit (time-saving) and links interactively to the use cases. This structure makes the educational content engaging, practical, and easy to navigate. The 'AI Key Terms' tab provides essential vocabulary in a digestible format. The 'AI Model Types' tab gives an overview of various LLMs and their sales-specific applications. The 'Brief Generator' tab allows users to input key client brief parameters and then uses an LLM to generate a structured draft brief, which can be copied. The new 'Prompt Generator' tab takes a user's problem statement and generates an optimized prompt for any LLM. UX improvements for the Brief Generator form have been implemented to enhance layout and readability. -->
     <!-- Visualization & Content Choices: 
         - Report Info: The list of time-consuming sales tasks from "The Sales Challenge".
         - Goal: To visually and impactfully communicate the core benefit of the workshop - saving time.
@@ -265,7 +265,7 @@
                         </div>
                         <div class="p-6 bg-gray-50 rounded-lg">
                             <h4 class="font-bold text-lg mb-2 text-gray-900">FORMAT Define the Desired Format</h4>
-                            <p class="text-gray-600">Specify the output structure. Ask for bullet points, an email draft, a summary paragraph, or any other format you need.</p>
+                            <p class="text-600">Specify the output structure. Ask for bullet points, an email draft, a summary paragraph, or any other format you need.</p>
                         </div>
                         <div class="p-6 bg-gray-50 rounded-lg">
                             <h4 class="font-bold text-lg mb-2 text-gray-900">🎭 Set the Tone/Persona</h4>
@@ -521,7 +521,7 @@
             {
                 id: 'outreach',
                 title: 'Personalized Outreach & Communication',
-                icon: '�',
+                icon: '📨',
                 problem: 'Crafting unique and compelling emails or messages for each prospect, overcoming writer\'s block, and developing effective subject lines can be a significant drain on time.',
                 solution: [
                     'Draft personalized cold emails or LinkedIn messages with minimal input.',
@@ -725,8 +725,6 @@
                         showTab('explorer');
                         toggleUseCase(useCaseId, true);
                         
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
                         document.querySelectorAll('.use-case-card').forEach(c => c.classList.remove('highlight'));
                         targetElement.classList.add('highlight');
                         setTimeout(() => {
@@ -787,7 +785,7 @@ Please ensure the brief is a draft, suitable for further human refinement.`;
                 // IMPORTANT: You MUST replace the empty quotes with your actual Google Cloud API Key.
                 // This key is obtained from Google Cloud Console -> APIs & Services -> Credentials.
                 // Ensure the "Generative Language API" is enabled in your Google Cloud Project.
-                const apiKey = ""; 
+                const apiKey = "AIzaSyB7G6kVVXaZDo5RWW5btxOUSmOgB5cfblQ"; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -1021,4 +1019,3 @@ Generate ONLY the optimized prompt. Do not include any conversational text or ex
 
 </body>
 </html>
-�
